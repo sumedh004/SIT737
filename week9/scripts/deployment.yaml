@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-node-app
+  template:
+    metadata:
+      labels:
+        app: my-node-app
+    spec:
+      containers:
+        - name: my-node-app
+          image: nodeapp-week5
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3040
+          env:
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: mongo-user
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: mongo-password
+            - name: MONGO_HOST
+              value: mongo-svc
+            - name: MONGO_PORT
+              value: "27017"
