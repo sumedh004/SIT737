@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodeapp
+  template:
+    metadata:
+      labels:
+        app: nodeapp
+    spec:
+      imagePullSecrets:
+       - name: gcr
+      containers:
+      - name: nodeapp
+        image: sumedh004/nodeapp-week5:latest
+        ports:
+        - containerPort: 3040
+
